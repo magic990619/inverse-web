@@ -79,3 +79,13 @@ export type SWR = {
   isLoading?: boolean
   isError?: any
 }
+
+export type DeFiAsset = {
+  name: string
+  logo: string
+  description: string
+  chain: string
+  category: string
+  tvl: number
+  apy: number
+}

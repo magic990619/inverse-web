@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react'
-import { AnchorBorrow, AnchorBorrowed, AnchorOverview, AnchorSupplied, AnchorSupply, AnchorHeader } from '@inverse/components/Anchor'
+import { AnchorBorrow, AnchorBorrowed, AnchorOverview, AnchorSupplied, AnchorSupply, AnchorHeader, AnchorDeFiAsset } from '@inverse/components/Anchor'
 import { NavButtons } from '@inverse/components/Button'
 import Container from '@inverse/components/Container'
 import Layout from '@inverse/components/Layout'
@@ -41,6 +41,11 @@ export const Anchor = () => {
           </Flex>
           <Flex w={{ base: 'full', xl: '2xl' }} display={borrowDisplay}>
             <AnchorBorrow />
+          </Flex>
+        </Flex>
+        <Flex w="full" justify="center">
+          <Flex w={{ base: 'full', xl: '84rem' }} justify="flex-end" display={supplyDisplay}>
+            <AnchorDeFiAsset />
           </Flex>
         </Flex>
       </Flex>

@@ -9,7 +9,8 @@ import { useAccountBalances, useBorrowBalances, useSupplyBalances } from '@inver
 import { useExchangeRates } from '@inverse/hooks/useExchangeRates'
 import { useAccountMarkets, useMarkets } from '@inverse/hooks/useMarkets'
 import { usePrices } from '@inverse/hooks/usePrices'
-import { Market } from '@inverse/types'
+import { useDefiAssets } from '@inverse/hooks/useDefiAssets'
+import { DeFiAsset, Market } from '@inverse/types'
 import { getComptrollerContract } from '@inverse/util/contracts'
 import { useWeb3React } from '@web3-react/core'
 import { commify, formatUnits } from 'ethers/lib/utils'
@@ -427,6 +428,99 @@ export const AnchorBorrow = () => {
     >
       <Table columns={columns} items={markets.filter(({ borrowable }: Market) => borrowable)} onClick={handleBorrow} />
       {modalAsset && <AnchorBorrowModal isOpen={isOpen} onClose={onClose} asset={modalAsset} />}
+    </Container>
+  )
+}
+
+export const AnchorDeFiAsset = () => {
+  const { defiAssets } = useDefiAssets()
+
+  const columns = [
+    {
+      header: <Flex width={36}>Asset</Flex>,
+      value: ({ logo, name }: DeFiAsset) => (
+        <Stack width={36} direction="row" align="center">
+          <Image src={logo} w={5} h={5} />
+          <Text>{name}</Text>
+        </Stack>
+      ),
+    },
+    {
+      header: (
+        <Stack direction="row" align="center" textAlign="end">
+          <Flex justify="center" >
+            Description
+          </Flex>
+        </Stack>
+      ),
+      value: ({ description }: DeFiAsset) => (
+        <Text minWidth={24} maxWidth={48} textAlign="center">
+          {description}
+        </Text>
+      ),
+    },
+    {
+      header: (
+        <Stack direction="row" align="center" textAlign="end">
+          <Flex justify="center" >
+            Chain
+          </Flex>
+        </Stack>
+      ),
+      value: ({ chain }: DeFiAsset) => (
+        <Text minWidth={24} textAlign="center">
+          {chain}
+        </Text>
+      ),
+    },
+    {
+      header: (
+        <Stack direction="row" align="center" textAlign="end">
+          <Flex justify="center" >
+            Category
+          </Flex>
+        </Stack>
+      ),
+      value: ({ category }: DeFiAsset) => (
+        <Text minWidth={24} textAlign="center">
+          {category}
+        </Text>
+      ),
+    },
+    {
+      header: (
+        <Stack direction="row" align="center" textAlign="end">
+          <Flex justify="center" >
+            TVL
+          </Flex>
+        </Stack>
+      ),
+      value: ({ tvl }: DeFiAsset) => (
+        <Text minWidth={24} textAlign="center">
+          {tvl ? `$${commify((tvl / 1e9).toFixed(2))}B` : '-'}
+        </Text>
+      ),
+    },
+    {
+      header: (
+        <Stack direction="row" align="center" textAlign="end">
+          <Flex justify="center" >
+            APY
+          </Flex>
+          <InfoTooltip message="APY refers to compounded yearly lending interest rate that can be accrued by from depositing a token. In this case, the APY is denominated in the same token you're depositing."/>
+        </Stack>
+      ),
+      value: ({ apy }: DeFiAsset) => (
+        <Text minWidth={24} textAlign="center">
+          {apy ? `${apy.toFixed(2)}%` : '-'}
+        </Text>
+      ),
+    },
+  ]
+
+  return (
+    <Container label="DeFi Assets">
+      <Table columns={columns} items={defiAssets} />
     </Container>
   )
 }
